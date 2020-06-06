@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+import os
 
 app = Flask(__name__)
-app.secret_key='dev'
-app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///site.db"
+app.config.from_object(os.environ['APP_SETTINGS'])
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"]=False
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
