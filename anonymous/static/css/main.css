@@ -104,3 +104,7 @@ form {
 .pagination {
     margin-bottom: 40px;
 }
+
+a {
+    margin-left: 3px;
+}
