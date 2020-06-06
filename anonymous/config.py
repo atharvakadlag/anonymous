@@ -7,7 +7,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'a4e620d412905a114308e9202db3e20d'
-    SQLALCHEMY_DATABASE_URI = os.environ("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
 
 
 class ProductionConfig(Config):
@@ -22,4 +22,3 @@ class StagingConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///site.db"
