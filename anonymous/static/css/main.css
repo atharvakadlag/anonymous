@@ -1,0 +1,106 @@
+body {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu, .bg-light, #footer {
+    background-color: #05ada5;
+}
+
+.navbar-light {
+	font-family: monospace;
+	font-size: 1.5em;
+}
+
+.nav-item, .dropdown-item {
+    border-radius: 1rem;
+}
+
+.dropdown-toggle {
+    text-align: right;
+    width: 200px;
+    background-color: rgb(250, 235, 215);
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+  }
+
+.message {
+    margin: 1rem auto;
+    padding: 0.2rem 1rem;
+    background-color: #fff;
+}
+
+#content {
+    font-size: 1em;
+}
+
+#info {
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+[id^="more"], [id^="showLess"] {
+    display: none;
+}
+
+[id^="showMore"], [id^="showLess"] {
+    font-size: 0.9em;
+    font-style: italic;
+    color: rgb(23, 155, 243);
+}
+
+.profile {
+    margin: 0.5rem auto 3rem auto;
+    border: 0.2rem solid rgb(51, 79, 90);
+    border-radius: 1rem;
+    padding: 0.2rem 1rem;
+    color: #000;
+    background-color: rgb(67, 155, 182);
+}
+    .profile-name {
+        font-size: 2em;
+        color: black;
+    }
+
+.filter_form {
+    margin-left: auto;
+    width: 150px; 
+}
+
+.custom-select {
+    margin-top: 0.5rem;
+    color: #17a2b8;
+    border-color: #17a2b8
+}
+
+.custom-select:hover {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8
+}
+
+.custom-select.focus,
+.custom-select:focus {
+    box-shadow: 0 0 0 .2rem rgba(23, 162, 184, .5)
+}
+
+#footer {
+    position: fixed;
+    bottom:0;
+    height: 40px;
+    width: 100%;
+    text-align: center;
+    padding: 0.5em 0 0.5em 0;
+    font-size: 0.9em;
+}
+
+form {
+    background: white;
+    padding: 1em;
+    margin: 1em;
+}
+
+.pagination {
+    margin-bottom: 40px;
+}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='container'>
+    <div class="col-md-8 offset-md-2">
+        {% for message in messages.items %}
+        {% set id = message.id %}
+        <div class='message'>
+            <div id='info'>
+                To: {{ message.receiver.capitalize() }}
+            </div>
+            <hr>
+            <div id='content'>
+                {{ message.content[:120] }}
+                {% if message.content|length > 120 %}
+                <span onclick="show_more({{id}})" id="showMore{{id}}">... show more</span>
+                <span id="more{{id}}">{{ message.content }}</span>
+                <span onclick="show_more({{id}})" id='showLess{{id}}'><br> show less</span>
+                {% endif %}
+            </div>
+            <hr>
+            <div id='info'>
+                From: {{message.sender.name.capitalize()}}
+            </div>
+        </div>
+        {% endfor %}
+        <div class='pagination'>
+            {% for page_num in messages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+            {% if messages.page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

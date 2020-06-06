@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    {{ form.hidden_tag() }}
+    <form class="filter_form" action="" method="POST">
+        {{form.msg_filter(class='custom-select', onchange='this.form.submit()')}}
+    </form>
+    {% for message in messages %}
+    {% set id = message.id %}
+    <div class='message'>
+        <div id='info'>
+            To: {{ message.receiver.capitalize() }}
+        </div>
+        <hr>
+        <div id='content'>
+            {{ message.content[:120] }}
+            {% if message.content|length > 120 %}
+            <span onclick="show_more({{id}})" id="showMore{{id}}">... show more</span>
+            <span id="more{{id}}">{{ message.content }}</span>
+            <span onclick="show_more({{id}})" id='showLess{{id}}'><br> show less</span>
+            {% endif %}
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-10" id='info'>
+                From: {{message.sender.name.capitalize()}}
+            </div>
+            <form class="col-sm-2 delete_message_form" action="" method="POST">
+                {{delete_message_form.msg_id(value=message.id)}}
+                {{delete_message_form.btnsubmit(class='btn btn-sm btn-outline-danger')}}
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

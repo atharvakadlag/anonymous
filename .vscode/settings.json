@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "/Users/atharva/Desktop/Python/Flask/.env/bin/python",
+    "python.testing.pytestArgs": [
+        "anonymous"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+}

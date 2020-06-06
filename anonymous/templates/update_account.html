@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class='border-bottom'>User Details</legend>
+            <div class='form-group row mb-2'>
+                {{ form.name.label(class='col-sm-3 form-control-label') }}
+
+                {% if form.name.errors %}
+                {{ form.name(class='col-sm-9 form-control is-invalid') }}
+                <div class="invalid-feedback">
+                    {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.name(class='col-sm-9 form-control') }}
+                {% endif %}
+            </div>
+            <div class='form-group row mb-2 mb-2'>
+                {{ form.username.label(class='col-sm-3 form-control-label') }}
+
+                {% if form.username.errors %}
+                {{ form.username(class='col-sm-9 form-control is-invalid') }}
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.username(class='col-sm-9 form-control') }}
+                {% endif %}
+            </div>
+            <div class='form-group row mb-2 mb-2'>
+                {{ form.email.label(class='col-sm-3 form-control-label') }}
+
+                {% if form.email.errors %}
+                {{ form.email(class='col-sm-9 form-control is-invalid') }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.email(class='col-sm-9 form-control') }}
+                {% endif %}
+            </div>
+            {{ form.submit(class='mt-2 btn btn-outline-info') }}
+            <hr>
+        </fieldset>
+    </form>
+</div>
+{% endblock content %}
