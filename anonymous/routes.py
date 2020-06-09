@@ -160,8 +160,7 @@ def change_password():
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = Message('Reset Password for ANON-AK',
-                 recipients=[user.email])
+    msg = Message('Reset Password for ANON-AK', sender='anon.ak.herokuapp@gmail.com', recipients=[user.email])
     msg.body = f'''
     Use the below given link for reseting your password:
     {url_for('reset_password', token=token, _external=True)}
