@@ -74,11 +74,28 @@ class FilterMessagesForm(FlaskForm):
 
 class DeleteMessageForm(FlaskForm):
     msg_id = HiddenField("msg_id")
-    btnsubmit = SubmitField("Delete")
+    submit = SubmitField("Delete")
 
 
 class ChangePasswordForm(FlaskForm):
     current_password = PasswordField('Current Password:', [DataRequired()])
+    new_password = PasswordField('New Password:', [DataRequired(), Length(
+        min=6, message='Password to weak, try something stronger.')])
+    confirm_new_password = PasswordField('Confirm Password:', [
+        DataRequired(), EqualTo('new_password', message="Paswords don't match.")])
+    submit = SubmitField('Change Password')
+
+class ResetRequestForm(FlaskForm):
+    email = StringField(
+        'Email ID:', [DataRequired(), Email(), Length(max=100)])
+    submit = SubmitField('Reset Password')
+
+    def validate_email(self, email):
+        user = models.Users.query.filter_by(email=email.data).first()
+        if not user:
+            raise ValidationError('Email not registered. try signing up.')
+
+class ResetPasswordForm(FlaskForm):
     new_password = PasswordField('New Password:', [DataRequired(), Length(
         min=6, message='Password to weak, try something stronger.')])
     confirm_new_password = PasswordField('Confirm Password:', [
