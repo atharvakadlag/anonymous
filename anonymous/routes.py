@@ -179,7 +179,7 @@ def reset_password(token):
         return redirect(url_for('reset_request'))
     form = forms.ResetPasswordForm()
     if form.validate_on_submit():
-        current_user.password = encrypt(form.new_password.data)
+        user.password = encrypt(form.new_password.data)
         db.session.commit()
         flash("Password reset sucessfull, Proceed to login", "success")
         return redirect(url_for('login'))
