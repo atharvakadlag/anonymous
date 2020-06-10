@@ -166,6 +166,7 @@ def send_reset_email(user):
     {url_for('reset_password', token=token, _external=True)}
     Ignore this message if the request was not made by you.
     '''
+    mail.send(msg)
 
 
 @app.route('/reset_password/<token>', methods=['POST', 'GET'])
