@@ -183,8 +183,6 @@ def reset_password(token):
         db.session.commit()
         flash("Password reset sucessfull, Proceed to login", "success")
         return redirect(url_for('login'))
-    else:
-        flash('Error occured', 'danger')
     return render_template('reset_password.html', form=form)
 
 
