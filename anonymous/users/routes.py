@@ -81,14 +81,16 @@ def user_messages():
     form = FilterMessagesForm()
     delete_message_form = DeleteMessageForm()
 
-    messages = models.Messages.query.filter(
-        (models.Messages.receiver == current_user.username) | (models.Messages.user_id == current_user.id))
+    sent_messages = models.Messages.query.filter_by(user_id=current_user.id).all()
+    received_messages = models.Messages.query.filter_by(receiver=current_user.username).all()
+    all_messages = list(set(sent_messages+received_messages))
 
-    if form.msg_filter.data == "sent":
-        messages = models.Messages.query.filter_by(user_id=current_user.id)
-    if form.msg_filter.data == "received":
-        messages = models.Messages.query.filter_by(
-            receiver=current_user.username)
+    messages = all_messages
+
+    if form.msg_filter.data == 'Sent':
+        messages = sent_messages
+    if form.msg_filter.data == 'Received':
+        messages = received_messages
 
     if request.method == "POST":
         msg_id = delete_message_form.msg_id.data
