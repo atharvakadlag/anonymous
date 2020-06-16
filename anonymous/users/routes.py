@@ -94,8 +94,8 @@ def user_messages():
 
     if request.method == "POST":
         msg_id = delete_message_form.msg_id.data
-        message = models.Messages.query.get(msg_id)
-        if message:
+        if isinstance(msg_id, int):
+            message = models.Messages.query.get(msg_id)
             db.session.delete(message)
             db.session.commit()
             flash(f"Message deleted sucessfully", "success")
