@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/Users/atharva/Desktop/Python/Flask/.env/bin/python3",
+    "python.pythonPath": ".env/bin/python",
     "python.testing.pytestArgs": [
         "anonymous"
     ],
