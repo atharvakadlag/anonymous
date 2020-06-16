@@ -18,8 +18,8 @@ body {
 }
 
 .dropdown-toggle {
-    text-align: right;
-    width: 200px;
+    max-width: 200px;
+    overflow: hidden;
     background-color: rgb(250, 235, 215);
 }
 
