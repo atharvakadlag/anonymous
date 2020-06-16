@@ -49,6 +49,8 @@
             </div>
             {{ form.submit(class='mt-2 btn btn-outline-info') }}
             <hr>
+            <img class='icon' onclick="copyfunc()" src="{{url_for('static', filename='images/copy.svg')}}" alt="">
+            <a class='user-link' href="/new_message?u={{current_user.username}}">Your Link</a>
         </fieldset>
     </form>
 </div>

@@ -10,6 +10,14 @@ function show_more(id) {
     } else {
       showMore.style.display = "none";
       more.style.display = "inline";
-      showLess.style.display = "inline"
+      showLess.style.display = "inline";
+
+      document.execCommand("copy");
     }
   }
+
+function copyfunc() {
+    var link = document.querySelector('.user-link').href;
+
+    navigator.clipboard.writeText(link)
+}
