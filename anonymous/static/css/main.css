@@ -1,10 +1,11 @@
 body {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #0000001a;
     font-size: 20px;
 }
 
 .dropdown-menu, .bg-light, #footer {
-    background-color: #05ada5;
+    background: rgb(0,199,205);
+    background: linear-gradient(180deg, rgba(0,199,205,1) 0%, rgba(0,217,224,1) 50%, rgba(0,199,205,1) 100%);
 }
 
 .navbar-light {
@@ -30,6 +31,10 @@ body {
     margin: 1rem auto;
     padding: 0.2rem 1rem;
     background-color: #fff;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 0px 25px -9px rgba(0,217,224,1);
+    -moz-box-shadow: 0px 0px 25px -9px rgba(0,217,224,1);
+    box-shadow: 0px 0px 25px -9px rgba(0,217,224,1);
 }
 
 #content {
@@ -40,6 +45,9 @@ body {
     font-size: 0.9em;
     font-style: italic;
 }
+    .sender {
+        text-align: right;
+    }
 
 [id^="more"], [id^="showLess"] {
     display: none;

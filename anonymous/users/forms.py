@@ -1,10 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import Length, DataRequired, Email, EqualTo, ValidationError
 from anonymous import models
-from anonymous.utils import *
-
 
 class RegistrationForm(FlaskForm):
     name = StringField(
@@ -40,12 +38,6 @@ class LoginForm(FlaskForm):
             raise ValidationError('Email not registered. try signing up.')
 
 
-class NewMessageForm(FlaskForm):
-    receiver = StringField('To:', [DataRequired(), Length(max=100)])
-    content = TextAreaField('Message:', [DataRequired()])
-    submit = SubmitField('Submit')
-
-
 class UpdateForm(FlaskForm):
     name = StringField('Name:', [DataRequired(), Length(max=120)])
     username = StringField('Username:', [DataRequired(), Length(max=120)])
@@ -67,16 +59,6 @@ class UpdateForm(FlaskForm):
                     'Email already registered, try signing in.')
 
 
-class FilterMessagesForm(FlaskForm):
-    msg_filter = SelectField('Filter Messages:', choices=[(
-        'all', 'All'), ('sent', 'Sent'), ('received', 'Received')])
-
-
-class DeleteMessageForm(FlaskForm):
-    msg_id = HiddenField("msg_id")
-    submit = SubmitField("Delete")
-
-
 class ChangePasswordForm(FlaskForm):
     current_password = PasswordField('Current Password:', [DataRequired()])
     new_password = PasswordField('New Password:', [DataRequired(), Length(
@@ -84,6 +66,7 @@ class ChangePasswordForm(FlaskForm):
     confirm_new_password = PasswordField('Confirm Password:', [
         DataRequired(), EqualTo('new_password', message="Paswords don't match.")])
     submit = SubmitField('Change Password')
+
 
 class ResetRequestForm(FlaskForm):
     email = StringField(
@@ -94,6 +77,7 @@ class ResetRequestForm(FlaskForm):
         user = models.Users.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError('Email not registered. try signing up.')
+
 
 class ResetPasswordForm(FlaskForm):
     new_password = PasswordField('New Password:', [DataRequired(), Length(

@@ -18,7 +18,7 @@
                 {% endif %}
             </div>
             <hr>
-            <div id='info'>
+            <div id='info' class='sender'>
                 From: {{message.sender.name.capitalize()}}
             </div>
         </div>
@@ -27,9 +27,9 @@
             {% for page_num in messages.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
             {% if page_num %}
             {% if messages.page == page_num %}
-            <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
             {% else %}
-            <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
             {% endif %}
             {% else %}
             ...

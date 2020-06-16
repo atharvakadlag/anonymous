@@ -35,8 +35,8 @@
             </div>
             {{ form.submit(class='mt-2 btn btn-outline-info') }}
             <hr>
-            <a class='form-text text-muted' href="{{ url_for('reset_request') }}">Forgot Password</a>
-            <a class='text-muted' href="{{ url_for('register') }}">Haven't Registered? Sign Up!</a>
+            <a class='form-text text-muted' href="{{ url_for('users.reset_request') }}">Forgot Password</a>
+            <a class='text-muted' href="{{ url_for('users.register') }}">Haven't Registered? Sign Up!</a>
         </fieldset>
     </form>    
 </div>

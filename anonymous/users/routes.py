@@ -1,43 +1,19 @@
+from flask import Blueprint
 from flask import redirect, url_for, render_template
-from flask import session, request, flash, abort, request
+from flask import request, flash, abort
 from flask_login import login_user, login_required, current_user, logout_user
-from flask_mail import Message
-from anonymous import app, forms, db, models, mail
-from anonymous.utils import *
-import time
-c = {
-    "RED": "\033[1;31m",
-    "BLUE": "\033[1;34m",
-    "CYAN": "\033[1;36m",
-    "GREEN": "\033[0;32m",
-    "RESET": "\033[0;0m",
-    "BOLD": "\033[;1m",
-    "REVERSE": "\033[;7m"
-}
+from anonymous import db, models
+from anonymous.users import forms
+from anonymous.messages.forms import DeleteMessageForm, FilterMessagesForm
+from anonymous.users.utils import verify, encrypt, is_safe_url, send_reset_email
+
+users = Blueprint('users', __name__)
 
 
-def cprint(string, color):
-    print(c[color], string, c["RESET"])
-
-
-@app.route('/')
-@app.route('/home')
-def home():
-    page = request.args.get('page', 1, type=int)
-    messages = models.Messages.query.order_by(
-        models.Messages.id.desc()).paginate(page=page, per_page=5)
-    return render_template('index.html', messages=messages)
-
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-
-@app.route('/login', methods=['POST', 'GET'])
+@users.route('/login', methods=['POST', 'GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = forms.LoginForm()
     if form.validate_on_submit():
         user = models.Users.query.filter_by(email=form.email.data).first()
@@ -47,16 +23,16 @@ def login():
             next = request.args.get('next')
             if not is_safe_url(next):
                 return abort(400)
-            return redirect(next or url_for('home'))
+            return redirect(next or url_for('main.home'))
         else:
             flash('Login Unsuccessfull, check email and password', 'danger')
     return render_template('login.html', form=form)
 
 
-@app.route('/register', methods=['POST', 'GET'])
+@users.route('/register', methods=['POST', 'GET'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = forms.RegistrationForm()
     if form.validate_on_submit():
         user = models.Users(name=form.name.data, username=form.username.data,
@@ -64,22 +40,21 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Registration Successfull', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('register.html', form=form)
 
 
-@app.route("/logout")
+@users.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
 
-@app.route("/account/update_account", methods=['POST', 'GET'])
+@users.route("/account/update_account", methods=['POST', 'GET'])
 @login_required
 def update_account():
     form = forms.UpdateForm()
-    filter_form = forms.FilterMessagesForm()
 
     if request.method == "GET":
         form.name.data = current_user.name
@@ -100,11 +75,11 @@ def update_account():
     return render_template('update_account.html', form=form)
 
 
-@app.route("/account/my_messages", methods=['POST', 'GET'])
+@users.route("/account/my_messages", methods=['POST', 'GET'])
 @login_required
 def user_messages():
-    form = forms.FilterMessagesForm()
-    delete_message_form = forms.DeleteMessageForm()
+    form = FilterMessagesForm()
+    delete_message_form = DeleteMessageForm()
 
     messages = models.Messages.query.filter(
         (models.Messages.receiver == 'tim') | (models.Messages.user_id == 2))
@@ -126,24 +101,8 @@ def user_messages():
     return render_template('user_posts.html', form=form, delete_message_form=delete_message_form, messages=messages)
 
 
-@app.route('/new_message', methods=['POST', 'GET'])
-def new_message():
-    form = forms.NewMessageForm()
-    if form.validate_on_submit():
-        if current_user.is_authenticated:
-            user_id = current_user.id
-        else:
-            user_id = 1
-        message = models.Messages(
-            receiver=form.receiver.data, content=form.content.data, user_id=user_id)
-        db.session.add(message)
-        db.session.commit()
-        flash('Message posted successfully.', 'success')
-        return redirect(url_for('home'))
-    return render_template('new_message.html', form=form)
 
-
-@app.route('/account/change_password', methods=['POST', 'GET'])
+@users.route('/account/change_password', methods=['POST', 'GET'])
 @login_required
 def change_password():
     form = forms.ChangePasswordForm()
@@ -158,53 +117,31 @@ def change_password():
     return render_template('change_password.html', form=form)
 
 
-def send_reset_email(user):
-    token = user.get_reset_token()
-    msg = Message('Reset Password for ANON-AK', sender='anon.ak.herokuapp@gmail.com', recipients=[user.email])
-    msg.body = f'''
-    Use the below given link for reseting your password:
-    {url_for('reset_password', token=token, _external=True)}
-    Ignore this message if the request was not made by you.
-    '''
-    mail.send(msg)
-
-
-@app.route('/reset_password/<token>', methods=['POST', 'GET'])
+@users.route('/reset_password/<token>', methods=['POST', 'GET'])
 def reset_password(token):
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     user = models.Users.verify_reset_token(token)
     if not user:
         flash('Invalid or Expired Token, please regenerate the token', 'danger')
-        return redirect(url_for('reset_request'))
+        return redirect(url_for('users.reset_request'))
     form = forms.ResetPasswordForm()
     if form.validate_on_submit():
-        current_user.password = encrypt(form.new_password.data)
+        user.password = encrypt(form.new_password.data)
         db.session.commit()
         flash("Password reset sucessfull, Proceed to login", "success")
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_password.html', form=form)
 
 
-@app.route('/reset_request', methods=['POST', 'GET'])
+@users.route('/reset_request', methods=['POST', 'GET'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('users.home'))
     form = forms.ResetRequestForm()
     if form.validate_on_submit():
         user = models.Users.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
         flash('Check your mail for further instructions', 'info')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_request.html', form=form)
-
-
-@app.cli.command("init_db")
-def init_db():
-    """Initialise the database"""
-    db.drop_all()
-    db.create_all()
-    user = models.Users(name='Anonymous', username='anonymous', email='anonymous@anonymous.anonymous',
-                        password='$5$rounds=535000$qm4TQTpM76vBksEs$d5T8pZFVkoMlmFOC.yxoVd2DIDDd2Z.ZUC6qw/pmup4')
-    db.session.add(user)
-    db.session.commit()
