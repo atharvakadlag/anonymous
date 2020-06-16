@@ -30,7 +30,7 @@ class Users(db.Model, UserMixin):
         return Users.query.get(user_id)
 
     def __repr__(self):
-        return f'User({self.name}, {self.username}, {self.email})'
+        return f'User({self.name}, {self.username}, {self.email}, {self.id})'
     
 class Messages(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -39,5 +39,5 @@ class Messages(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), default=1)
 
     def __repr__(self):
-        return f'Message({self.receiver}, {self.content[:120]})'
+        return f'Message({self.receiver}, {self.content[:120]}, {self.id})'
     

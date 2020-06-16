@@ -83,22 +83,21 @@ def user_messages():
 
     sent_messages = models.Messages.query.filter_by(user_id=current_user.id).all()
     received_messages = models.Messages.query.filter_by(receiver=current_user.username).all()
-    all_messages = list(received_messages)
+    all_messages = list(set(received_messages+sent_messages))
 
     messages = all_messages
-
-    if form.msg_filter.data == 'Sent':
+    if form.msg_filter.data == 'sent':
         messages = sent_messages
-    if form.msg_filter.data == 'Received':
+    if form.msg_filter.data == 'received':
         messages = received_messages
-
     if request.method == "POST":
         msg_id = delete_message_form.msg_id.data
-        if isinstance(msg_id, int):
+        if msg_id:
             message = models.Messages.query.get(msg_id)
             db.session.delete(message)
             db.session.commit()
             flash(f"Message deleted sucessfully", "success")
+            return redirect(url_for('users.user_messages'))
 
     return render_template('user_posts.html', form=form, delete_message_form=delete_message_form, messages=messages)
 
