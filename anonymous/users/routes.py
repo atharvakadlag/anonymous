@@ -82,7 +82,7 @@ def user_messages():
     delete_message_form = DeleteMessageForm()
 
     messages = models.Messages.query.filter(
-        (models.Messages.receiver == 'tim') | (models.Messages.user_id == 2))
+        (models.Messages.receiver == current_user.username) | (models.Messages.user_id == current_user))
 
     if form.msg_filter.data == "sent":
         messages = models.Messages.query.filter_by(user_id=current_user.id)
