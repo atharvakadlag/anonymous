@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class='col-md-8 offset-md-2'>
     <form action="", method="POST">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
@@ -31,11 +30,16 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.content(class='form-control') }}
+                        {{ form.content(class='form-message-content form-control') }}
                     {% endif %}
                 </div>
+                <div class="form-check">
+                    {{form.is_anonymous()}}
+                    <label class="form-check-label" for="is_anonymous">
+                        {{form.is_anonymous.label()}}
+                    </label>
+                  </div>
                 {{ form.submit(class='mt-2 btn btn-outline-info') }}
         </fieldset>
     </form>
-</div>
 {% endblock content %}

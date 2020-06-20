@@ -1,20 +1,50 @@
-body {
-    background-color: #0000001a;
-    font-size: 20px;
+html > body {
+    background-image: url('../images/bodybg.jpg');
+    font-size: 16px;
 }
 
 .dropdown-menu, .bg-light, #footer {
-    background: rgb(0,199,205);
-    background: linear-gradient(180deg, rgba(0,199,205,1) 0%, rgba(0,217,224,1) 50%, rgba(0,199,205,1) 100%);
+    background-image: url('../images/navbg.jpg');
+    opacity: 0.8;
 }
 
 .navbar-light {
 	font-family: monospace;
-	font-size: 1.5em;
+    font-size: 1.5em;
+    color: #fff;
+}
+
+.navbar-light .navbar-toggler-icon {
+    color: #fff;
+    background-image: url("../images/chevron-down.svg");
 }
 
 .nav-item, .dropdown-item {
     border-radius: 1rem;
+    color: #fff;
+    font-size: 1em;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: rgba(255, 255, 255);
+    font-size: 1em;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, .9);
+    font-size: 1em;
+}
+
+.navbar-light .navbar-brand {
+    color: rgba(255, 0, 255);
+}
+
+.navbar-light .navbar-brand:hover {
+    color: rgba(255, 255, 255);
+}
+
+.navbar-toggler {
+    padding: 0;
 }
 
 .dropdown-toggle {
@@ -32,9 +62,6 @@ body {
     padding: 0.2rem 1rem;
     background-color: #fff;
     border-radius: 20px;
-    -webkit-box-shadow: 0px 0px 25px -9px rgba(0,217,224,1);
-    -moz-box-shadow: 0px 0px 25px -9px rgba(0,217,224,1);
-    box-shadow: 0px 0px 25px -9px rgba(0,217,224,1);
 }
 
 #content {
@@ -88,16 +115,6 @@ body {
     box-shadow: 0 0 0 .2rem rgba(23, 162, 184, .5)
 }
 
-#footer {
-    position: fixed;
-    bottom:0;
-    height: 40px;
-    width: 100%;
-    text-align: center;
-    padding: 0.5em 0 0.5em 0;
-    font-size: 0.9em;
-}
-
 .user-link:hover {
     text-decoration: none;
 }
@@ -107,9 +124,10 @@ body {
 }
 
 form {
-    background: white;
+    background: #dddddd;
     padding: 1em;
     margin: 1em;
+    border-radius: 20px;
 }
 
     .delete_message_form {
@@ -135,4 +153,12 @@ form {
 
 a {
     margin-left: 3px;
+}
+
+
+.form-message-content {
+    min-height: 10em;
+}
+.form-check {
+    padding-left: 0;
 }

@@ -12,18 +12,20 @@ messages = Blueprint('messages', __name__)
 def new_message():
     form = forms.NewMessageForm()
 
-    # check if referal
+    # check if routed
     u = request.args.get('u', None)
     if u:
         form.receiver.data = u
 
     if form.validate_on_submit():
-        if current_user.is_authenticated:
-            user_id = current_user.id
-        else:
+        if form.is_anonymous:
             user_id = 1
+        else:
+            user_id = current_user.id
+
         message = models.Messages(
             receiver=form.receiver.data, content=form.content.data, user_id=user_id)
+            
         db.session.add(message)
         db.session.commit()
         flash('Message posted successfully.', 'success')
