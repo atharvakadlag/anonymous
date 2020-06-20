@@ -1,4 +1,5 @@
 html > body {
+    background-color: #fff;
     font-size: 16px;
 }
 
@@ -59,7 +60,7 @@ html > body {
 .message {
     margin: 1rem auto;
     padding: 0.2rem 1rem;
-    background-color: #fff;
+    background: #0000001b;
     border-radius: 20px;
 }
 
@@ -123,7 +124,7 @@ html > body {
 }
 
 form {
-    background: #dddddd;
+    background: #0000001b;
     padding: 1em;
     margin: 1em;
     border-radius: 20px;
