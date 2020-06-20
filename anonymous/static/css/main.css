@@ -1,11 +1,10 @@
 html > body {
-    background-image: url('../images/bodybg.jpg');
     font-size: 16px;
 }
 
 .dropdown-menu, .bg-light, #footer {
-    background-image: url('../images/navbg.jpg');
-    opacity: 0.8;
+    background: rgb(0,199,205);
+    background: linear-gradient(180deg, rgba(0,199,205,1) 0%, rgba(0,217,224,1) 50%, rgba(0,199,205,1) 100%);
 }
 
 .navbar-light {
